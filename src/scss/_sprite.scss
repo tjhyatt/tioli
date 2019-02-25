@@ -1,0 +1,7 @@
+$icons: (
+sprite: (width: 32px, height: 32px, pngPath: '/images/sprite.png', svgPath: '/images/sprite.svg'),
+    facebook: (width: 16px, height: 16px, backgroundX: 0px, backgroundY: 0px),
+    twitter: (width: 16px, height: 16px, backgroundX: -16px, backgroundY: -16px),
+);
+
+$icons-all: (facebook,twitter,);

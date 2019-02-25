@@ -1,0 +1,462 @@
+/* progress bar ============================== */
+
+.progress-bar {
+  position: relative;
+  width: 100%;
+  height: 6px;
+
+  .progress {
+    @include transition(all 200ms $easeInOutQuad);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    background: purple;
+
+    &.s_fade {
+      @include transition(all 500ms $easeInOutQuad);
+      opacity: 0;
+    }
+  }
+}
+
+
+/* box list ============================== */
+
+.box-list {
+  @include flexbox();
+  @include flex-direction(row);
+  @include flex-wrap(wrap);
+  margin: 0 -10px;
+}
+
+
+/* box preview ============================== */
+
+.box-preview {
+  text-decoration: none;
+  padding: 10px;
+  width: 50%;
+
+  &:hover {
+
+    .contents {
+      opacity: .2;
+    }
+  }
+
+  .box-inner {
+    @include transition(all 200ms $easeInOutQuad);
+    overflow: hidden;
+    position: relative;
+    //background: $boxcolor;
+    border-radius: 2px;
+    padding: 35px 40px 40px;
+    color: rgba($textcolor, .8);
+
+    // &::before {
+    //   @include transition(all 200ms $easeInOutQuad);
+    //   content: '';
+    //   position: absolute;
+    //   top: 0;
+    //   bottom: 0;
+    //   left: 0;
+    //   //right: 0;
+    //   width: 1%;
+    //   background: $basecolor;
+    //   z-index: -1;
+    // }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: $boxcolor;
+      z-index: -2;
+    }
+  }
+
+  .box-content {
+    font-family: $altfont;
+    line-height: 1.4;
+
+    .content {
+      @include align-items(center);
+    }
+  }
+
+  .box-take,
+  .box-leave {
+    @include transition(all 200ms $easeInOutCubic);
+    position: absolute;
+    left: 0;
+    width: 1%;
+    height: 50%;
+    opacity: .5;
+    z-index: -1;
+  }
+
+  .box-take {
+    top: 0;
+    background: $basecolor;
+  }
+
+  .box-leave {
+    top: 50%;
+    background: $errorcolor;
+  }
+
+  .box-but {
+    text-transform: lowercase;
+    text-align: center;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 22px;
+    margin: 30px 0;
+  }
+
+  .box-details {
+    @include flexbox();
+    margin: 0 0 20px;
+    opacity: .6;
+    display: none;
+
+    .author {
+      font-size: 16px;
+      margin: 0 0 4px;
+    }
+
+    .date {
+      font-size: 14px;
+    }
+  }
+}
+
+
+/* box view ============================== */
+
+.box-view {
+  position: relative;
+  font-family: $altfont;
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  opacity: 1;
+
+  @include breakpoint($desktop) {
+    width: 65%;
+  }
+
+  &.s_loading {
+
+    .loading {
+      opacity: 1;
+    }
+
+    .box-inner,
+    .box-details {
+      opacity: 0;
+    }
+  }
+
+  .loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    opacity: 0;
+
+  }
+
+  .box-inner {
+    margin: 40px 0 0;
+  }
+
+  .box-take,
+  .box-leave {
+    font-size: 24px;
+    line-height: 1.3;
+    color: $textcolor;
+  }
+
+  .box-voting {
+    @include flexbox();
+    @include justify-content(space-between);
+    overflow: hidden;
+    border-radius: 4px;
+    opacity: .8;
+
+    &.focus-take {
+
+      .voting-holder.green {
+        background: $basecolor;
+        opacity: 1;
+      }
+    }
+
+    &.focus-leave {
+
+      .voting-holder.red {
+        background: $errorcolor;
+        opacity: 1;
+      }
+    }
+
+    &.focus-both {
+
+      .voting-holder.green,
+      .voting-holder.red {
+        opacity: 1;
+      }
+    }
+
+    .voting-holder {
+      @include transition(all 200ms $easeInOutCubic);
+      @include flexbox();
+      @include flex-shrink(1);
+      background: $grey;
+      width: 50%;
+      opacity: .3;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &.focus {
+        opacity: 1;
+      }
+
+      &.green {
+        background: $basecolor;
+      }
+
+      &.red {
+        background: $errorcolor;
+      }
+
+      .btn-vote {
+        background: transparent;
+
+        &:hover {
+          background: rgba($black, .1);
+        }
+      }
+
+      .btn-right {
+        margin: 0 0 0 auto;
+      }
+    }
+
+    .btn {
+      @include flex-shrink(0);
+      font-size: 14px;
+      border-radius: 0;
+      padding: 10px 18px;
+      z-index: 100;
+
+      &.warning {
+        margin: 0 0 0 auto;
+      }
+    }
+  }
+
+  .box-voting-numbers {
+    @include flexbox;
+    @include justify-content(space-between);
+    padding: 8px 18px;
+    font-size: 12px;
+    opacity: .8;
+  }
+
+  .box-details {
+    @include flexbox();
+    @include justify-content(center);
+    @include align-items(center);
+    font-size: 14px;
+    margin: 40px 0;
+
+    .avatar-image {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: $grey;
+    }
+
+    .user {
+      margin: 0 10px;
+    }
+
+    .date {
+      margin: 0 10px;
+    }
+  }
+}
+
+
+/* comments ============================== */
+
+.box-comments {
+  @include flexbox();
+  @include flex-direction(column);
+  margin: 40px auto;
+  width: 100%;
+
+  @include breakpoint($desktop) {
+    width: 65%;
+  }
+}
+
+.comment-list {
+  @include flexbox();
+  @include flex-direction(column);
+  margin: 40px 0 0;
+  width: 100%;
+
+  .comment-box {
+    @include flexbox();
+    margin: 0 0 30px;
+
+    .comment-user-avatar {
+      @include flex-shrink(0);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      background: $grey;
+
+      img {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .comment-details {
+      @include flexbox();
+      @include flex-direction(column);
+      margin-left: 12px;
+      width: 100%;
+    }
+
+    .comment-data {
+      @include flexbox();
+
+      .comment-username {
+        font-size: 14px;
+        font-weight: 700;
+
+        .author {
+          font-size: 11px;
+          font-weight: 400;
+          padding: 2px 4px;
+          border-radius: 4px;
+          background: $basecolor;
+          color: $white;
+          vertical-align: middle;
+        }
+      }
+
+      .comment-date {
+        font-size: 12px;
+        margin: 2px 10px;
+        color: $grey;
+      }
+    }
+
+    .comment-body {
+      line-height: 1.4;
+      margin: 10px 0 12px;
+    }
+
+    .comment-actions {
+      user-select: none;
+      cursor: pointer;
+      font-size: 14px;
+      color: $grey;
+    }
+  }
+}
+
+
+/* reply list ============================== */
+
+.reply-list {
+  margin: 30px 0 0;
+}
+
+
+/* reply form ============================== */
+
+.box-reply {
+  @include flexbox();
+  @include flex-direction(row);
+  display: none;
+  margin: 12px 0;
+
+  &.s_active {
+    @include flexbox();
+  }
+}
+
+
+/* account setting ============================== */
+
+.account-setting {
+  width: 100%;
+  text-align: left;
+  margin: 0 0 40px;
+
+  .setting-title {
+
+  }
+
+  .setting-box {
+    @include flexbox();
+    @include flex-direction(row);
+    @include align-items(center);
+    @include justify-content(space-between);
+    @include flex-wrap(wrap);
+    padding: 10px 0;
+  }
+
+  .setting-input {
+    margin: auto auto auto 8px;
+  }
+
+  .avatar-image {
+    @include flex-shrink(0);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: $grey;
+  }
+
+  .setting-error {
+    width: 100%;
+    margin: 20px 0 0;
+
+    &.hidden {
+      display: none;
+    }
+
+    .error-message {
+      display: inline-block;
+      font-size: 14px;
+      background: $errorcolor;
+      border-radius: 4px;
+      padding: 8px;
+      color: $white;
+    }
+  }
+}
+
+
+/* coinhive ============================== */
+
+.coinhive-miner {
+  @include flex-shrink(0);
+}

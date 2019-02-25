@@ -1,0 +1,186 @@
+form {
+  position: relative;
+}
+
+.fields {
+  font-size: 0;
+  margin: 0 -10px;
+}
+
+.field {
+  display: inline-block;
+  padding: 0 10px 15px;
+  width: 100%;
+
+  &.l_25 {
+    
+    @include breakpoint($tablet) {
+      width: 25%;
+    }
+  }
+
+  &.l_33 {
+    
+    @include breakpoint($tablet) {
+      width: 33.333%;
+    }
+  }
+
+  &.l_50 {
+
+    @include breakpoint($tablet) {
+      width: 50%;
+    }
+  }
+
+  &.l_66 {
+    
+    @include breakpoint($tablet) {
+      width: 66.667%;
+    }
+  }
+
+  &.l_75 {
+    
+    @include breakpoint($tablet) {
+      width: 75%;
+    }
+  }
+
+  &.l_100 {
+
+    @include breakpoint($tablet) {
+      width: 100%;
+    }
+  }
+
+  &.l_collapse {
+    padding: 0;
+
+    @include breakpoint($tablet) {
+      padding: 0 10px 15px;
+    }
+  }
+}
+
+input,
+textarea {
+  font-size: 16px;
+  border: 1px solid $grey;
+  border-radius: 4px;
+  line-height: 35px;
+  padding: 8px 12px;
+  width: 100%;
+  height: 50px;
+
+  &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: rgba($textcolor, .5);
+  }
+
+  &::-moz-placeholder { /* Firefox 19+ */
+    color: $textcolor;
+  }
+
+  &:-ms-input-placeholder { /* IE 10+ */
+    color: $textcolor;
+  }
+
+  &:-moz-placeholder { /* Firefox 18- */
+    color: $textcolor;
+  }
+
+  &:focus {
+    border-color: $basecolor;
+  }
+
+  &.reply {
+    border: none;
+    border-bottom: 1px solid $grey;
+    border-radius: 0;
+    padding: 8px 8px;
+    height: 33px;
+  }
+}
+
+input[type=file] {
+  border: none;
+  line-height: normal;
+  height: auto;
+}
+
+textarea {
+  border-bottom-right-radius: 0;
+  background: $boxcolor;
+  resize: vertical;
+
+  &.question {
+    height: 200px;
+  }
+
+  &.comment {
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid $grey;
+    line-height: 1.4;
+    padding: 12px;
+  }
+}
+
+.terms {
+  margin: 40px 0;
+
+  .head p {
+    font-weight: 700;
+  }
+
+  .body p {
+    font-size: 14px;
+  }
+}
+
+
+/* loading ============================== */
+
+.s_loading {
+  // opacity: .5;
+  pointer-events: none;
+
+  .loading {
+    opacity: 1;
+  }
+}
+
+.loading {
+  position: relative;
+  opacity: 0;
+  pointer-events: none;
+  width: 30px;
+  height: 35px;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 10px;
+
+  img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+}
+
+
+/* errors ============================== */
+
+.errors {
+  display: none;
+  
+  &.s_active {
+    display: block;
+  }
+
+  p {
+    font-size: 14px;
+    color: $errorcolor;
+  }
+}

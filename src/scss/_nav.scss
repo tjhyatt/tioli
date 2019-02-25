@@ -1,0 +1,127 @@
+/* nav ============================== */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: $darkgrey;
+  padding: 0;
+  color: $white;
+  z-index: 10000;
+}
+
+.nav-main {
+  @include flexbox();
+  @include align-items(center);
+  position: relative;
+  height: 60px;
+
+  .logo {
+    height: 100%;
+  }
+
+  .items {
+    margin: 0 40px;
+    height: 100%;
+  }
+
+  .items-aside {
+    margin: 0 0 0 auto;
+    height: 100%;
+  }
+
+  .item-hover {
+    @include transition(all 200ms $easeInOutQuad);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 4px;
+    background: $basecolor;
+  }
+
+  ul {
+    @include flexbox();
+    height: 100%;
+
+    li {
+      @include flexbox();
+      @include align-items(center);
+      position: relative;
+      float: left;
+      margin: 0 4px;
+      height: 100%;
+
+      &::after {
+        @include transition(all $easeInOutQuad 200ms);
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background: $white;
+        z-index: 0;
+        opacity: 0;
+        pointer-events: none;
+        width: 0;
+        height: 0;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+      }
+
+      &:hover {
+        @include transition(all $easeInOutQuad 200ms);
+
+        &::after {
+          content: '';
+          background: $basecolor;
+          opacity: 1;
+          width: 100%;
+          height: 5px;
+        }
+      }
+
+      a {
+        @include flexbox();
+        @include align-items(center);
+        @include user-select(none);
+        font-size: 14px;
+        font-weight: 700;
+        height: 100%;
+        text-decoration: none;
+        text-transform: uppercase;
+        padding: 0 10px;
+        color: #fff;
+        z-index: 1;
+
+        &:hover {
+          @include transition(all $easeInOutQuad 200ms);
+          color: $basecolor;
+        }
+
+        &.s_here {
+          color: $basecolor;
+
+          &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: $basecolor;
+            z-index: -1;
+            opacity: 1;
+            pointer-events: none;
+            width: 100%;
+            height: 5px;
+            backface-visibility: hidden;
+            border-bottom-left-radius: 2px;
+            border-bottom-right-radius: 2px;
+          }
+        }
+      }
+    }
+  }
+}
