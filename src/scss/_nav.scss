@@ -27,7 +27,7 @@
   }
 
   .items-aside {
-    margin: 0 0 0 auto;
+    width: 100%;
     height: 100%;
   }
 
@@ -41,8 +41,34 @@
     background: $basecolor;
   }
 
+  .form-search {
+    @include flexbox();
+    width: 100%;
+  }
+
+  .nav-search {
+    font-family: $basefont;
+    font-weight: 700;
+    font-size: 14px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid $white;
+    border-radius: 0;
+    margin-right: 8px;
+    padding: 0 8px;
+    height: 34px;
+    color: $white;
+
+    &::placeholder {
+      font-family: $basefont;
+      font-weight: 700;
+      color: $grey;
+    }
+  }
+
   ul {
     @include flexbox();
+    width: 100%;
     height: 100%;
 
     li {
@@ -79,6 +105,29 @@
           opacity: 1;
           width: 100%;
           height: 5px;
+        }
+      }
+
+      &.margin-left {
+        margin-left: 40px;
+      }
+
+      &.margin-right {
+        margin-right: 40px;
+      }
+
+      &.full-width {
+        width: 100%;
+      }
+
+      &.no-hover {
+
+        &:hover {
+          @include transition(all $easeInOutQuad 200ms);
+  
+          &::after {
+            content: none;
+          }
         }
       }
 

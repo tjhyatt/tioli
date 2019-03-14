@@ -37,7 +37,11 @@
 .box-preview {
   text-decoration: none;
   padding: 10px;
-  width: 50%;
+  width: 100%;
+
+  @include breakpoint($tablet) {
+    width: 50%;
+  }
 
   &:hover {
 
@@ -94,7 +98,8 @@
     @include transition(all 200ms $easeInOutCubic);
     position: absolute;
     left: 0;
-    width: 1%;
+    //width: 1%;
+    width: 4px;
     height: 50%;
     opacity: .5;
     z-index: -1;

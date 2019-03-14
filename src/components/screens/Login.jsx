@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import firebase from 'firebase';
+import { Redirect } from 'react-router-dom';
+import { connect } from "react-redux";
+import { signIn } from '../../store/actions/authActions';
 
-import loading from '../images/loading.svg';
+import loading from '../../images/loading.svg';
 
 class Login extends Component {
   constructor(props) {
@@ -28,50 +29,7 @@ class Login extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    this.setState({isLoading: true});
-    this.login(this.state.email, this.state.password);
-  }
-
-  login(email, password) {
-    firebase.auth().signInWithEmailAndPassword(email, password).then( () => {
-      this.setState({
-        isLoading: false,
-        isLoggedIn: true
-      });
-    }).catch( (error) => {
-      this.setState({error: error.message, isLoading: false});
-    })
-  }
-
-  signUp(username, email, password) {
-    // check if username is unique
-    let ref = firebase.database().ref('usernames');
-    // ref.child('username').orderByChild('username').equalTo(username.toUpperCase()).on("value", function(snapshot) {
-    //   console.log(snapshot.val());
-    //   snapshot.forEach(function(data) {
-    //       console.log(data.key);
-    //   });
-    // });
-
-    // create account
-    firebase.auth().createUserWithEmailAndPassword(email, password).then( (e) => {
-
-      // add user details
-      firebase.database().ref('users/' + e.user.uid).set({
-        email: e.user.email,
-        username: username
-      });
-
-      // add username to list
-      firebase.database().ref('usernames').set({
-        [username.toUpperCase()]: e.user.uid
-      });
-
-    }).catch( (e) => {
-      console.log(e);
-
-      // display error message
-    })
+    this.props.signIn(this.state);
   }
 
   render() { 
@@ -99,6 +57,11 @@ class Login extends Component {
       RedirectUser = null;
     }
 
+    const { auth, authError } = this.props;
+    if (auth.uid) {
+      return <Redirect to="/account" />
+    }
+
     return ( 
       <React.Fragment>
         <section className="row content">
@@ -116,9 +79,7 @@ class Login extends Component {
                   <div className="field l_50">
                     <input type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.onChange} />
                   </div>
-                  <div className={errorClass}>
-                    <p>{errorMessage}</p>
-                  </div>
+                  {authError ? <div className="field l_100 errors s_active"><p>{ authError }</p></div> : null}
                   <div className="field l_50">
                     <input className="btn-submit" type="submit" value="Login" />
                     <div className="loading"><img src={loading} alt="" /></div>
@@ -133,4 +94,17 @@ class Login extends Component {
   }
 }
  
-export default Login;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (creds) => dispatch(signIn(creds))
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    authError: state.auth.authError
+  }
+}
+ 
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

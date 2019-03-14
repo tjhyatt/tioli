@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from "react-redux";
+import { signOut } from '../../store/actions/authActions';
 import firebase from 'firebase';
 
 class Account extends Component {
-
-  state = {
-    uploadImage: null,
-    uploadUrl: '',
-    uploadError: '',
-    isUploadReady: false
+  constructor(props) {
+    super(props);
+    this.state = {
+      uploadImage: null,
+      uploadUrl: '',
+      uploadError: '',
+      isUploadReady: false
+    }
   }
 
   onSignOut = e => {
     try {
-      firebase.auth().signOut();
+      this.props.signOut();
     } catch (e) {
 
     }
@@ -39,19 +43,19 @@ class Account extends Component {
       }, 
       (error) => {
         this.setState({
-          uploadError: error,
+          //uploadError: error,
         });
       }, 
       () => {
         firebase.storage().ref('images/' + user.uid + '/avatar').getDownloadURL().then(url => {
-          this.setState({uploadUrl: url});
+          //this.setState({uploadUrl: url});
         });
         var button  = document.getElementById('uploadBtn');
         button.innerText = "Upload image";
       });
     } else {
       this.setState({
-        uploadError: 'Unexpected error occured, please try again'
+        //uploadError: 'Unexpected error occured, please try again'
       });
     }
   }
@@ -81,18 +85,19 @@ class Account extends Component {
   }
 
   render() { 
-    var user = firebase.auth().currentUser;
-    var RedirectUser;
+    // redirect if not logged in
+    const { auth } = this.props;
+    if (!auth.uid) {
+      return <Redirect to="/login" />
+    } else {
 
-    if (user) {
-      RedirectUser = null;
-      firebase.storage().ref('images/' + user.uid + '/avatar').getDownloadURL().then(result => {
+      firebase.storage().ref('images/' + auth.uid + '/avatar').getDownloadURL().then(result => {
         this.setState({
           uploadUrl: result
         });
+      }).catch((err) => {
+        console.log(err);
       });
-    } else {
-      RedirectUser = <Redirect to={{ pathname: '/' }} />
     }
 
     var avatarStyle = {
@@ -107,15 +112,17 @@ class Account extends Component {
     }
 
     var errorClass = 'setting-error hidden';
-    if (this.state.uploadError != '') {
+    if (this.state.uploadError !== '') {
       errorClass = 'setting-error';
     }
+
+
 
     return ( 
       <React.Fragment>
         <section className="row content">
           <div className="row-inner-wide">
-            <div className="content-main l_text-centered">
+            <div className="content-main">
               <h1>Account</h1>
               <div className="account-setting">
                 <div className="setting-title"><strong>Change profile image</strong><p><small>Max file size 2MB</small></p></div>
@@ -135,10 +142,7 @@ class Account extends Component {
                 </div>
               </div>
               
-              
               <button className="btn warning" onClick={() => this.onSignOut()}>logout</button>
-              {RedirectUser}
-              
               
             </div>
           </div>
@@ -148,4 +152,16 @@ class Account extends Component {
   }
 }
  
-export default Account;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: () => dispatch(signOut())
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth
+  }
+}
+ 
+export default connect(mapStateToProps, mapDispatchToProps)(Account);

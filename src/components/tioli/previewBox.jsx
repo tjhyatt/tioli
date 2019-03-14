@@ -31,9 +31,9 @@ class PreviewBox extends Component {
     let boxTake = this.refs.boxTake;
     let boxLeave = this.refs.boxLeave;
 
-    boxTake.style.width = '1%';
+    boxTake.style.width = '4px';
     boxTake.style.opacity = '.5';
-    boxLeave.style.width = '1%';
+    boxLeave.style.width = '4px';
     boxLeave.style.opacity = '.5';
   }
 

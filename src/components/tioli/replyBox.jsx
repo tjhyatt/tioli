@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 
-import loading from '../../images/loading.svg';
+// import loading from '../../images/loading.svg';
 
 class ReplyBox extends Component {
   constructor(props) {
@@ -91,9 +91,9 @@ class ReplyBox extends Component {
       date = date.replace(/,/g, ' ');
     }
 
-    var CommentLoadingClass = "";
-    var ErrorClass = "l_100 errors";
-    var ErrorMessage = "";
+    // var CommentLoadingClass = "";
+    // var ErrorClass = "l_100 errors";
+    // var ErrorMessage = "";
 
     var avatarStyle = {
       backgroundImage: 'url(' + this.state.userAvatarUrl + ')',
@@ -102,7 +102,7 @@ class ReplyBox extends Component {
     };
 
     let AuthorElement = null;
-    if (this.state.tioliAuthorId == this.state.userId) {
+    if (this.state.tioliAuthorId === this.state.userId) {
       AuthorElement = <span className="author">poster</span>;
     }
 

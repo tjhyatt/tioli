@@ -3,7 +3,6 @@ import firebase from 'firebase';
 import ReplyBox from '../tioli/replyBox';
 
 import loading from '../../images/loading.svg';
-import { isString } from 'util';
 
 class CommentBox extends Component {
   constructor(props) {
@@ -41,10 +40,15 @@ class CommentBox extends Component {
 
   getUserData(context, id) {
     let ref = firebase.database().ref('users');
+    let imageRef = firebase.storage().ref('images/' + id + '/avatar');
 
-    firebase.storage().ref('images/' + id + '/avatar').getDownloadURL().then(result => {
+    imageRef.getDownloadURL().then(result => {
       this.setState({
         userAvatarUrl: result
+      });
+    }).catch((err) => {
+      this.setState({
+        userAvatarUrl: null
       });
     });
 
@@ -65,7 +69,7 @@ class CommentBox extends Component {
 
 
   getReplies(context, id) {
-    var context = context;
+
     var replies = [];
 
     let ref = firebase.database().ref('replies/' + id);
@@ -112,7 +116,7 @@ class CommentBox extends Component {
 
     // check if input is empty
     if (this.isEmpty(reply)){
-      alert('Is empty');
+
     } else {
 
       // get reply id
@@ -151,8 +155,8 @@ class CommentBox extends Component {
     if (this.state.isReplyVisible) {
       CommentLoadingClass = "box-reply s_active";
     }
-    var ErrorClass = "l_100 errors";
-    var ErrorMessage = "";
+    // var ErrorClass = "l_100 errors";
+    // var ErrorMessage = "";
 
     var avatarStyle = {
       backgroundImage: 'url(' + this.state.userAvatarUrl + ')',
@@ -161,7 +165,7 @@ class CommentBox extends Component {
     };
 
     let AuthorElement = null;
-    if (this.state.tioliAuthorId == this.state.userId) {
+    if (this.state.tioliAuthorId === this.state.userId) {
       AuthorElement = <span className="author">poster</span>;
     }
 

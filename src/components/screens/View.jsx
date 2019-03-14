@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import CommentBox from '../components/tioli/commentBox';
-import VotingBox from '../components/tioli/votingBox';
-import { isEmpty } from '../components/tioli/functions.js';
-import loading from '../images/loading.svg';
+import { compose } from 'redux';
+import { connect } from "react-redux";
+import { firebaseConnect } from 'react-redux-firebase';
+import CommentBox from '../tioli/commentBox';
+import VotingBox from '../tioli/votingBox';
+import moment from 'moment';
+import { isEmpty } from '../../helper/functions.js';
+import loading from '../../images/loading.svg';
 
 class View extends Component {
   constructor(props) {
@@ -25,7 +29,7 @@ class View extends Component {
   }
 
   componentDidMount() {
-    let { id } = this.props.match.params;
+    const { id } = this.props.match.params;
     this.getResult(this, id);
     this.getComments(this, id);
     this.authListener(id);
@@ -69,7 +73,6 @@ class View extends Component {
           userAvatarUrl: result
         });
       }).catch((error) => {
-        console.log(error);
         context.setState({
           userAvatarUrl: null
         });
@@ -108,10 +111,6 @@ class View extends Component {
     });
   }
 
-  getVotes(context, id) {
-
-  }
-
   getUserVote(context, id) {
 
     // check if user is logged in
@@ -126,31 +125,26 @@ class View extends Component {
         try {
 
           if (snapshot.val() === null) {
-            console.log('user hasn\'t voted');
+
           } else {
-            console.log('user has voted');
-            console.log('vote: ' + snapshot.val().vote);
 
             // set the vote state
             if (snapshot.val().vote === 'take') {
-              console.log('set vote: take');
               context.setState({
                 userVote: 'take'
               });
             } else if (snapshot.val().vote === 'leave') {
-              console.log('set vote: leave');
               context.setState({
                 userVote: 'leave'
               });
             } else {
-              console.log('set vote: null');
               context.setState({
                 userVote: 'null'
               });
             }
           }
         } catch(error) {
-          console.log('in the catch area: ' + error);
+
         }
       });
     }
@@ -185,7 +179,6 @@ class View extends Component {
 
     var user = firebase.auth().currentUser;
     var questionParams = this.props.match.params;
-    questionParams.id = questionParams.id.slice(1);
     let comment = this.state.comment;
 
     // check if comment is empty
@@ -201,7 +194,7 @@ class View extends Component {
       var ref = firebase.database().ref('comments/' + questionParams.id).push();
 
       // submit comment
-      firebase.database().ref('comments/' + questionParams.id + '/' + ref.key).set({
+      firebase.database().ref('comments/' + questionParams.id + '/' + ref.key).update({
         uid: user.uid,
         timestamp: - Date.now(), // store timestamp as negative so firebase displays them is descending order
         comment: comment
@@ -229,10 +222,8 @@ class View extends Component {
 
     // convert timestamp to date
     let date;
-    const DATE_OPTIONS = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' };
     if (this.state.result.timestamp) {
-      date = new Date(this.state.result.timestamp).toLocaleDateString('en-US', DATE_OPTIONS);
-      date = date.replace(/,/g, ' ');
+      date = moment.unix(this.state.result.timestamp / 1000).format("D MMM YYYY \\@ HH:mm a");
     }
 
     // set loading class
@@ -262,6 +253,8 @@ class View extends Component {
       backgroundPosition: '50% 50%'
     };
 
+    let userLink = '/user/' + this.state.result.username;
+
     return ( 
       <React.Fragment>
         <section className="row content">
@@ -276,7 +269,7 @@ class View extends Component {
                 
                 <div className="box-details">
                   <div className="avatar-image" style={avatarStyle}></div>
-                  <div className="user">By {this.state.result.username}</div>
+                  <div className="user">By <a href={userLink}>{this.state.result.username}</a></div>
                   <div className="date">{date}</div>
                 </div>
 
@@ -334,5 +327,17 @@ class View extends Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    latestTioli: state.firebase.ordered.tioli
+  }
+}
+
+export default compose(
+  connect(mapStateToProps),
+  firebaseConnect([
+    { path: 'tioli', queryParams: [ 'orderByChild=timestamp', 'limitToFirst=10' ] }
+  ])
+  )(View);
  
-export default View;
