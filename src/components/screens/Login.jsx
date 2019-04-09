@@ -67,7 +67,7 @@ class Login extends Component {
         <section className="row content">
           {RedirectUser}
           <div className="row-inner-wide">
-            <div className="content-main l_text-centered">
+            <div className="content-main">
               <h1>Log in</h1>
             </div>
             <div className="content-main">

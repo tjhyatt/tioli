@@ -76,7 +76,7 @@ class Signup extends Component {
       <React.Fragment>
         <section className="row content">
           <div className="row-inner-wide">
-            <div className="content-main l_text-centered">
+            <div className="content-main">
               <h1>Sign up</h1>
             </div>
             <div className="content-main">

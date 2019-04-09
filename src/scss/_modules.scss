@@ -36,7 +36,7 @@
 
 .box-preview {
   text-decoration: none;
-  padding: 10px;
+  padding: 0 10px 20px;
   width: 100%;
 
   @include breakpoint($tablet) {
@@ -176,6 +176,9 @@
     margin: 0;
     opacity: 0;
 
+    &.s_active {
+      opacity: 1;
+    }
   }
 
   .box-inner {

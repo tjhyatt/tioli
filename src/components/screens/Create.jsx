@@ -23,7 +23,9 @@ class Create extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.setState({ isSubmitted: true });
+    this.setState({ 
+      isSubmitted: true 
+    });
     this.props.createTioli(this.state);
   }
 
@@ -31,12 +33,6 @@ class Create extends Component {
     const { auth, tioli } = this.props;
     const tioliError = tioli.tioliError;
     const tioliLink = tioli.tioliLink;
-
-    var loadingClass;
-
-    if (auth.isLoaded) {
-      loadingClass = '';
-    }
 
     if (this.state.isSubmitted & tioliLink !== '') {
       return <Redirect to={{ pathname: '/view/' + tioliLink }} />
@@ -48,9 +44,7 @@ class Create extends Component {
           <div className="row-inner-wide">
             <div className="content-main">
               <h1>Create</h1>
-            </div>
-            <div className="content-main">
-              <form id="question" className={loadingClass} onSubmit={this.onSubmit}>
+              <form id="question" onSubmit={this.onSubmit}>
                 <div className="fields">
                   <div className="field l_100">
                     <textarea className="question" name="question" placeholder="Your question..." value={this.state.question} onChange={this.onChange}></textarea>
@@ -58,7 +52,8 @@ class Create extends Component {
                   {tioliError ? <div className="field l_100 errors s_active"><p>{ tioliError }</p></div> : null}
                   <div className="field l_50">
                     <input className="btn-submit" type="submit" value="Submit" />
-                    <div className="loading"><img src={loading} alt="" /></div>
+                    {this.state.isSubmitted & tioliError === null ? <div className="loading-inline"><img src={loading} alt="" /></div> : null}
+                    
                   </div>
                 </div>               
               </form>

@@ -1,5 +1,13 @@
 /* general ============================== */
 
+body {
+  overflow: auto;
+
+  &.s_menu-active {
+    overflow: hidden;
+  }
+}
+
 .flex {
   @include flexbox();
 }
@@ -10,12 +18,31 @@
   height: 28px;
 }
 
+.loading-inline {
+  position: relative;
+  opacity: 1;
+  pointer-events: none;
+  width: 30px;
+  height: 35px;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 10px;
+
+  img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+}
+
 
 /* content ============================== */
 
 .content {
   position: relative;
-  margin: 80px 0 40px;
+  margin: 60px 0 40px;
   padding: 20px 0;
   
   .content-main {
@@ -23,6 +50,10 @@
     @include justify-content(space-between);
     @include flex-direction(column);
     margin: 20px auto 0;
+
+    &.l_no-margin {
+      margin: 0 auto;
+    }
 
     &.l_text-centered {
       text-align: center;

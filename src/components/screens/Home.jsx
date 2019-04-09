@@ -9,7 +9,7 @@ class Home extends Component {
           <div className="row-inner-wide">
             <div className="content-main">
               <h1>What is Take It or Leave It?</h1>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+              <p>Take it or leave it is a game where you can pose hypothetical scenarios for others to discuss and ultimately choose whether they'd take the scenario or leave it. It usually involves lots of discussion to iron out the finer points.</p>
             </div>
           </div>
         </section>

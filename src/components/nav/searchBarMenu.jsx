@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getResult } from '../../store/actions/searchActions';
 import searchIcon from '../../images/search.svg';
 
-class SearchBar extends Component {
+class SearchBarMenu extends Component {
 
   state = {
     query: '',
@@ -16,6 +16,7 @@ class SearchBar extends Component {
     this.setState({
       isSubmitted: true
     });
+    this.props.onMenuToggle();
     this.props.getResult(this.state.query);
   }
 
@@ -38,22 +39,17 @@ class SearchBar extends Component {
   }
 
   render() {
-    
     return ( 
       <React.Fragment>
         <li className="full-width no-hover">
           <form className="form-search" onSubmit={this.onSubmitSearch}>
             <input className="nav-search" type="text" name="query" placeholder="search..." onChange={this.onSearchChange}/>
-            
+            <img className="btn-search" src={searchIcon} alt="search" onClick={this.onSubmitSearch} />
           </form>
-        </li>
-        <li>
-          <img className="btn-search" src={searchIcon} alt="search" onClick={this.onSubmitSearch} />
         </li>
       </React.Fragment>
     );
   }
-
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -68,4 +64,4 @@ const mapStateToProps = (state) => {
   }
 }
  
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchBar));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchBarMenu));

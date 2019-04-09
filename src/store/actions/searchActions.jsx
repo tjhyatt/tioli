@@ -13,11 +13,15 @@ export const getResult = (query) => {
       snapshot.forEach(function(tioli) {
         let question = tioli.child('question').val();
         let username = tioli.child('username').val();
+        let leaveVotes = tioli.child('leaveVotes').val();
+        let takeVotes = tioli.child('takeVotes').val();
         let uid = tioli.child('uid').val();
         key = tioli.key;
         let list = {
           question: question,
           username: username,
+          leaveVotes: leaveVotes,
+          takeVotes: takeVotes,
           uid: uid,
           key: key
         };

@@ -48,7 +48,7 @@ class User extends Component {
         <section className="row content">
           <div className="row-inner-wide">
             <div className="content-main">
-              <h2>Submissions</h2>
+              <h1>Submissions</h1>
               {noSubs}
 
               <div className="box-list">

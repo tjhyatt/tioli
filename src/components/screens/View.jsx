@@ -259,7 +259,7 @@ class View extends Component {
       <React.Fragment>
         <section className="row content">
           <div className="row-inner-wide">
-            <div className="content-main">
+            <div className="content-main l_no-margin">
 
               <div className={LoadingClass}>
                 <div className="loading"><img src={loading} alt="" /></div>

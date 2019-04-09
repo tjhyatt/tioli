@@ -13,6 +13,7 @@
 
 .nav-main {
   @include flexbox();
+  @include justify-content(space-between);
   @include align-items(center);
   position: relative;
   height: 60px;
@@ -22,13 +23,23 @@
   }
 
   .items {
+    display: none;
     margin: 0 40px;
     height: 100%;
+
+    @include breakpoint($tablet) {
+      display: block;
+    }
   }
 
   .items-aside {
+    display: none;
     width: 100%;
     height: 100%;
+
+    @include breakpoint($tablet) {
+      display: block;
+    }
   }
 
   .item-hover {
@@ -59,10 +70,90 @@
     height: 34px;
     color: $white;
 
+    @include breakpoint($tablet) {
+      font-size: 12px;
+    }
+
+    @include breakpoint($desktop) {
+      font-size: 14px;
+    }
+
     &::placeholder {
       font-family: $basefont;
       font-weight: 700;
       color: $grey;
+    }
+  }
+
+  .nav-menu {
+
+    @include breakpoint($tablet) {
+      display: none;
+    }
+
+    .menu-handle {
+      position: relative;
+      width: 30px;
+      height: 21px;
+      user-select: none;
+      cursor: pointer;
+
+      &:hover:not(.s_active) {
+        
+        span {
+  
+          &:nth-child(2) {
+            width: 90%;
+          }
+  
+          &:nth-child(3) {
+            width: 80%;
+          }
+        }
+      }
+
+      &.s_active {
+
+        span {
+  
+          &:nth-child(1) {
+            top: 9px;
+            transform: rotate(-45deg);
+          }
+  
+          &:nth-child(2) {
+            top: 9px;
+            transform: translateX(10px);
+            opacity: 0;
+          }
+  
+          &:nth-child(3) {
+            top: 9px;
+            transform: rotate(45deg);
+          }
+        }
+      }
+
+      span {
+        @include transition(all 200ms $easeInOutQuad);
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        background: $white;
+        border-radius: 2px;
+
+        &:nth-child(1) {
+          top: 0;
+        }
+
+        &:nth-child(2) {
+          top: 9px;
+        }
+
+        &:nth-child(3) {
+          top: 18px;
+        }
+      }
     }
   }
 
@@ -144,6 +235,14 @@
         color: #fff;
         z-index: 1;
 
+        @include breakpoint($tablet) {
+          font-size: 12px;
+        }
+    
+        @include breakpoint($desktop) {
+          font-size: 14px;
+        }
+
         &:hover {
           @include transition(all $easeInOutQuad 200ms);
           color: $basecolor;
@@ -170,6 +269,53 @@
             border-bottom-right-radius: 2px;
           }
         }
+      }
+    }
+  }
+}
+
+
+/* menu ============================== */
+
+.menu {
+  @include transition(all 200ms $easeInOutQuad);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #4b4a4e;
+  padding-top: 100px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+
+  &.s_active {
+    pointer-events: auto;
+    opacity: 1;
+  }
+
+  .form-search {
+    @include flexbox();
+    margin-bottom: 16px;
+
+    .nav-search {
+      margin-right: 12px;
+      height: 40px;
+    }
+  }
+
+  ul {
+    text-align: center;
+
+    li {
+
+      a {
+        display: block;
+        font-size: 20px;
+        text-decoration: none;
+        padding: 16px 0;
+        color: $white;
       }
     }
   }

@@ -3,13 +3,12 @@ import { compose } from 'redux';
 import { connect } from "react-redux";
 import { firebaseConnect } from 'react-redux-firebase';
 import PreviewBox from '../tioli/previewBox';
+import loading from '../../images/loading.svg';
 
 class Latest extends Component {
 
   render() { 
     const { latestTioli } = this.props;
-
-    console.log(latestTioli)
     
     return ( 
       <React.Fragment>
@@ -17,6 +16,8 @@ class Latest extends Component {
           <div className="row-inner-wide">
             <div className="content-main">
               <h1>Latest</h1>
+
+              { latestTioli ? '' : <img src={loading} alt="loading"/> }
                 
               <div className="box-list">
               
