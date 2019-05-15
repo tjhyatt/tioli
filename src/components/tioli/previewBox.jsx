@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class PreviewBox extends Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class PreviewBox extends Component {
     }
 
     return ( 
-      <a className="box-preview" href={'/view/' + this.state.id} onMouseEnter={this.handleMouseEnter}
+      <Link className="box-preview" to={'/view/' + this.state.id} onMouseEnter={this.handleMouseEnter}
       onMouseLeave={this.handleMouseLeave}>
         <div className="box-inner">
           <div className="box-content">
@@ -62,7 +63,7 @@ class PreviewBox extends Component {
           <div className="box-take" ref="boxTake" data-width={takeWidth}></div>
           <div className="box-leave" ref="boxLeave" data-width={leaveWidth}></div>
         </div>
-      </a>
+      </Link>
     );
   }
 }
