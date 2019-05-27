@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import { compose } from 'redux';
 import { connect } from "react-redux";
 import { firebaseConnect } from 'react-redux-firebase';
+import { Link } from 'react-router-dom';
 import CommentBox from '../tioli/commentBox';
 import VotingBox from '../tioli/votingBox';
 import moment from 'moment';
@@ -269,7 +270,7 @@ class View extends Component {
                 
                 <div className="box-details">
                   <div className="avatar-image" style={avatarStyle}></div>
-                  <div className="user">By <a href={userLink}>{this.state.result.username}</a></div>
+                  <div className="user">By <Link to={userLink}>{this.state.result.username}</Link></div>
                   <div className="date">{date}</div>
                 </div>
 

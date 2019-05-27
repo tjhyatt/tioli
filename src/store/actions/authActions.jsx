@@ -77,8 +77,6 @@ export const signUp = (newUser) => {
             newUser.password
           ).then((res) => {
 
-            console.log('here 1', res.user);
-
             // add display name
             res.user.updateProfile({
               displayName: newUser.username
@@ -109,7 +107,6 @@ export const signUp = (newUser) => {
               err: null
             });
           }).catch((err) => {
-            console.log('here 3', err);
             dispatch({
               type: 'SIGNUP_ERROR',
               err: err.message
