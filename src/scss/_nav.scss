@@ -5,7 +5,7 @@
   top: 0;
   left: 0;
   right: 0;
-  background: $darkgrey;
+  background: linear-gradient(to right, #005D71, #2F4858);
   padding: 0;
   color: $white;
   z-index: 10000;
@@ -16,7 +16,7 @@
   @include justify-content(space-between);
   @include align-items(center);
   position: relative;
-  height: 60px;
+  height: 65px;
 
   .logo {
     height: 100%;
